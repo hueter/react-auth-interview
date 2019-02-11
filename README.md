@@ -1,31 +1,34 @@
-# React Authentication Example
+Instructions:
 
-This is an example application I created to showcase how to implement authentication on a web application using React and react-router on the frontend and node.js, express, mongodb, and mongoose on the backend.
+Dependencies: Git, Node, MongoDB, Browser
 
-The [associated blog post](https://medium.com/@faizanv/authentication-for-your-react-and-express-application-w-json-web-tokens-923515826e0) for this example can be found [here](https://medium.com/@faizanv/authentication-for-your-react-and-express-application-w-json-web-tokens-923515826e0).
+In order to run the project:
+1. clone the repo (https://bitbucket.org/nicklathen/react-auth-interview.git).
+2. $ npm install #(if you are having issues with gyp/bcrypt, try node v10.15.1)
+3. $ mongod  #(mongodb -- point dbpath wherever)
+4. $ node server.js  #(api server port 8080)
+5. $ npm start  #(development server port 3000)
+6. $ ./dev_scripts/createUser.sh  #(to create a user)
+7. Go to http://localhost:3000.
+8. Login using your credentials (user, password).
+9. View the "Secret" link.
 
-To run the application first clone the repository
-```
-git clone https://github.com/faizanv/react-auth-example.git
-```
+This starter repo is a simple react/express/mongo app with a single authenticated frontend route (/secret), which can only be access once logged in.
 
-Install the dependencies
-```
-npm install
-```
-Make sure that MongoDB is running
-```
-mongod
-```
-run the server
-```
-npm run server
-```
-and then in a separate window/tab run the frontend
-```
-npm start
-```
-The application should be running at [http://localhost:3000/](http://localhost:3000/)
+By default, the JWT used for authentication expires in 1 hour. Once expired, the app will prevent the user from navigating to the protected route, and they must manually log back in to get a new JWT.
 
+Our goal is to implement "auto logout" functionality with the following specifications:
+
+  1. Tokens should only be valid for 5 minutes.
+  2. Once the user's token is invalid/expired, the user should be immediately re-routed back to login. They will need to manually log back in to get a new token.
+  3. While the user has a valid token, activity by the user should extend the expiration date of the token. This means the token should not expire until there has been 5 minutes without activity from the user.
+  4. The user should receive a warning 30 seconds prior to being logged out. Interaction with the warning should extend the expiration date of the token.
+
+
+
+
+
+
+Originally forked from https://github.com/faizanv/react-auth-example
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 You can find the most recent version of their guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
