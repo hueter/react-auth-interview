@@ -4,7 +4,7 @@ export default class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email : '',
+      username : '',
       password: ''
     };
   }
@@ -44,10 +44,10 @@ export default class Login extends Component {
       <form onSubmit={this.onSubmit}>
         <h1>Login Below!</h1>
         <input
-          type="email"
-          name="email"
-          placeholder="Enter email"
-          value={this.state.email}
+          type="username"
+          name="username"
+          placeholder="Enter username"
+          value={this.state.username}
           onChange={this.handleInputChange}
           required
         />

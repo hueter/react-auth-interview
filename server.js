@@ -40,8 +40,8 @@ app.get('/api/secret', withAuth, function(req, res) {
 });
 
 app.post('/api/register', function(req, res) {
-  const { email, password } = req.body;
-  const user = new User({ email, password });
+  const { username, password } = req.body;
+  const user = new User({ username, password });
   user.save(function(err) {
     if (err) {
       console.log(err);
@@ -53,8 +53,8 @@ app.post('/api/register', function(req, res) {
 });
 
 app.post('/api/authenticate', function(req, res) {
-  const { email, password } = req.body;
-  User.findOne({ email }, function(err, user) {
+  const { username, password } = req.body;
+  User.findOne({ username }, function(err, user) {
     if (err) {
       console.error(err);
       res.status(500)
@@ -64,7 +64,7 @@ app.post('/api/authenticate', function(req, res) {
     } else if (!user) {
       res.status(401)
         .json({
-        error: 'Incorrect email or password'
+        error: 'Incorrect username or password'
       });
     } else {
       user.isCorrectPassword(password, function(err, same) {
@@ -76,11 +76,11 @@ app.post('/api/authenticate', function(req, res) {
         } else if (!same) {
           res.status(401)
             .json({
-            error: 'Incorrect email or password'
+            error: 'Incorrect username or password'
           });
         } else {
           // Issue token
-          const payload = { email };
+          const payload = { username };
           const token = jwt.sign(payload, secret, {
             expiresIn: '1h'
           });
