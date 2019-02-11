@@ -15,12 +15,12 @@ async function checkActiveUser(warningFn, finalFn) {
     const res = await fetch('/refreshToken');
     if (res.status === 200) {
       // set new ones for warning and final
-      const fourMinutesThirty = 60 * 1000 * 4.5;
-      const fiveMinutes = 60 * 1000 * 5;
+      const twentySeconds = 20 * 1000;
+      const thirtySeconds = 30 * 1000;
       const { warningTimer, finalTimer } = startTimers(
-        fourMinutesThirty,
+        twentySeconds,
         warningFn,
-        fiveMinutes,
+        thirtySeconds,
         finalFn
       );
       localStorage.setItem('warningTimer', warningTimer);

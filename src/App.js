@@ -17,7 +17,7 @@ class App extends Component {
 
   showWarningModal = () => {
     // use a portal
-    alert('WARNING YOU HAVE BEEN INACTIVE TOO LONG');
+    console.log('WARNING YOU HAVE BEEN INACTIVE TOO LONG');
   };
 
   logout = () => {
