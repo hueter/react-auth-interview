@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, withRouter } from 'react-router-dom';
 import withAuth from './withAuth';
 import Home from './Home';
 import Secret from './Secret';
@@ -54,4 +54,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
