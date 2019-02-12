@@ -17,7 +17,7 @@ describe('Start Timers', () => {
     expect(fakeFn1).toHaveBeenCalledTimes(1);
     expect(fakeFn2).not.toHaveBeenCalled();
     // advance time to 1501 ms
-    clock.tick(1501);
+    clock.tick(500);
     expect(fakeFn1).toHaveBeenCalledTimes(1);
   });
 });
