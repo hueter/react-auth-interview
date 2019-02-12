@@ -6,10 +6,8 @@
  * @param {Function} finalFn the final action
  */
 export function startTimers(warningTime, warningFn, finalTime, finalFn) {
-  return {
-    warningTimer: setTimeout(warningFn, warningTime),
-    finalTimer: setTimeout(finalFn, finalTime)
-  };
+  localStorage.setItem('warningTimer', setTimeout(warningFn, warningTime));
+  localStorage.setItem('finalTimer', setTimeout(finalFn, finalTime));
 }
 
 /**
@@ -17,7 +15,9 @@ export function startTimers(warningTime, warningFn, finalTime, finalFn) {
  * @param {Number} warningTimer an ID for a setTimeout for warning
  * @param {Number} finalTimer an ID for a setTimeout for final
  */
-export function clearTimers(warningTimer, finalTimer) {
-  clearTimeout(warningTimer);
-  clearTimeout(finalTimer);
+export function clearTimers() {
+  clearTimeout(+localStorage.getItem('warningTimer'));
+  clearTimeout(+localStorage.getItem('finalTimer'));
+  localStorage.removeItem('warningTimer');
+  localStorage.removeItem('finalTimer');
 }
