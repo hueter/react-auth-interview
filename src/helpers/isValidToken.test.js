@@ -12,7 +12,7 @@ describe('See if a token is valid', () => {
     expect(isValidToken(token)).toBe(true);
   });
 
-  it('returns true when given a valid JWT', () => {
+  it('returns false when given an expired JWT', () => {
     const fiveMinsAgoInSeconds = Math.floor(
       (Date.now() - 1000 * 60 * 5) / 1000
     );

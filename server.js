@@ -77,7 +77,7 @@ app.post('/api/authenticate', function(req, res) {
           // Issue token
           const payload = { username };
           const token = jwt.sign(payload, secret, {
-            expiresIn: '30s'
+            expiresIn: '10s'
           });
           res.cookie('token', token, { httpOnly: false }).sendStatus(200);
         }
@@ -93,7 +93,7 @@ app.get('/checkToken', withAuth, function(req, res) {
 app.get('/refreshToken', withAuth, function(req, res) {
   const { username } = req;
   const token = jwt.sign({ username }, secret, {
-    expiresIn: '30s'
+    expiresIn: '10s'
   });
   return res.cookie('token', token, { httpOnly: false }).sendStatus(200);
 });

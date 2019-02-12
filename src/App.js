@@ -4,27 +4,58 @@ import withAuth from './withAuth';
 import Home from './Home';
 import Secret from './Secret';
 import Login from './Login';
-import debouncedCheckActiveUser from './helpers/checkActiveUser';
+import WarningModal from './WarningModal';
+import checkActiveUser, {
+  debouncedCheckActiveUser
+} from './helpers/checkActiveUser';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { modalOpen: false };
+    this.listeningEvents = ['click', 'mousemove', 'touchstart'];
+    this.bouncer = debouncedCheckActiveUser.bind(
+      null,
+      this.showWarningModal,
+      this.logout
+    );
+  }
+
   startLogoutTimer = () => {
-    ['click', 'mousemove', 'touchstart'].forEach(event => {
-      document.addEventListener(event, () => {
-        debouncedCheckActiveUser(this.showWarningModal, this.logout);
-      });
+    // call once to initialize
+    checkActiveUser(this.showWarningModal, this.logout);
+    // add a debounced version to a bunch of events
+    this.listeningEvents.map(event => {
+      window.addEventListener(event, this.bouncer);
+    });
+  };
+
+  toggleModal = () => {
+    this.setState(st => {
+      return { modalOpen: !st.modalOpen };
     });
   };
 
   showWarningModal = () => {
-    // use a portal
+    this.setState({ modalOpen: true });
     console.log('WARNING YOU HAVE BEEN INACTIVE TOO LONG');
   };
 
   logout = () => {
-    this.props.history.push('/');
+    // set it for every type of event
+    this.listeningEvents.forEach((event, i) => {
+      window.removeEventListener(event, this.bouncer);
+    });
+
+    this.setState({ modalOpen: false }, () => {
+      this.props.history.push('/login');
+    });
   };
 
   render() {
+    if (this.state.modalOpen) {
+      return <WarningModal handleClick={this.toggleModal} />;
+    }
     return (
       <div>
         <ul>
@@ -38,13 +69,12 @@ class App extends Component {
             <Link to="/login">Login</Link>
           </li>
         </ul>
-
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/secret" component={withAuth(Secret)} />
           <Route
             path="/login"
-            render={props => (
+            component={props => (
               <Login {...props} startLogoutTimer={this.startLogoutTimer} />
             )}
           />
