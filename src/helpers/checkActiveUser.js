@@ -24,6 +24,6 @@ export default async function checkActiveUser(warningFn, finalFn) {
   }
 }
 
-export const debouncedCheckActiveUser = debounce(checkActiveUser, 1000, {
+export const debouncedCheckActiveUser = debounce(checkActiveUser, 500, {
   leading: true
 });
